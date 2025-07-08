@@ -37,6 +37,8 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-devtools")
 	implementation("org.springframework.boot:spring-boot-starter-validation")
 	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0")
+	implementation("org.mybatis.dynamic-sql:mybatis-dynamic-sql:1.5.0")
+	implementation(org.mybatis.generator:mybatis-generator-core:1.4.2)
 	mybatisGenerator("org.mybatis.generator:mybatis-generator-core:1.4.2")
 	mybatisGenerator("com.h2database:h2:2.3.232")
 }
