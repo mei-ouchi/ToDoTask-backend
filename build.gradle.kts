@@ -2,7 +2,6 @@ plugins {
 	java
 	id("org.springframework.boot") version "3.5.3"
 	id("io.spring.dependency-management") version "1.1.7"
-	id("org.mybatis.generator") version "1.4.2"
 }
 
 group = "com.example"
@@ -38,17 +37,19 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-validation")
 	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0")
 	implementation("org.mybatis.dynamic-sql:mybatis-dynamic-sql:1.5.0")
-	implementation(org.mybatis.generator:mybatis-generator-core:1.4.2)
-	mybatisGenerator("org.mybatis.generator:mybatis-generator-core:1.4.2")
-	mybatisGenerator("com.h2database:h2:2.3.232")
+	implementation("org.mybatis.generator:mybatis-generator-core:1.4.2")
 }
 
-mybatisGenerator {
-    verbose = true
-    overwrite = true
-    configurationFile = "src/main/resources/generatorConfig.xml"
-}
+tasks.register<JavaExec>("mybatisGenerate") {
+    group = "mybatis"
+    description = "Generate MyBatis files"
 
-tasks.withType<Test> {
-	useJUnitPlatform()
+    classpath = sourceSets["main"].runtimeClasspath
+    mainClass.set("org.mybatis.generator.api.ShellRunner")
+
+    args = listOf(
+        "-configfile", "${projectDir}/src/main/resources/generatorConfig.xml",
+        "-overwrite",
+        "-verbose"
+    )
 }
