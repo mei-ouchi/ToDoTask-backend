@@ -38,7 +38,6 @@ dependencies {
 	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0")
 	implementation("org.mybatis.dynamic-sql:mybatis-dynamic-sql:1.5.0")
 	implementation("org.mybatis.generator:mybatis-generator-core:1.4.2")
-	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0")
 }
 
 tasks.register<JavaExec>("mybatisGenerate") {
