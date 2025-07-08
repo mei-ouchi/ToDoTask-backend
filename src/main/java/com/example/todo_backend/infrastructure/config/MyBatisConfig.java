@@ -1,4 +1,4 @@
-package com.example.todo_backend.config;
+package com.example.todo_backend.infrastructure.config;
 
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
