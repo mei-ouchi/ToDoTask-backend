@@ -2,6 +2,7 @@ plugins {
 	java
 	id("org.springframework.boot") version "3.5.3"
 	id("io.spring.dependency-management") version "1.1.7"
+	id("org.openapi.generator") version "7.5.0"
 }
 
 group = "com.example"
@@ -38,13 +39,6 @@ dependencies {
 	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0")
 	implementation("org.mybatis.dynamic-sql:mybatis-dynamic-sql:1.5.0")
 	implementation("org.mybatis.generator:mybatis-generator-core:1.4.2")
-	openApiGen("org.openapitools:openapi-generator-cli:7.5.0")
-  openApiGen("io.swagger.parser.v3:swagger-parser:2.1.22")
-}
-
-val openApiGen: Configuration = configurations.create("openApiGen") {
-    isCanBeConsumed = false
-    isCanBeResolved = true
 }
 
 tasks.register<JavaExec>("mybatisGenerate") {
@@ -61,26 +55,24 @@ tasks.register<JavaExec>("mybatisGenerate") {
     )
 }
 
-tasks.register<JavaExec>("openApiGenerateCustom") {
-    group = "generation"
-    description = "Generate API interfaces and DTOs using OpenAPI Generator CLI directly"
-    classpath = openApiGen
-
-    mainClass.set("org.openapitools.codegen.OpenApiGenerator")
-
-    args = listOf(
-        "generate",
-        "-g", "spring",
-        "-i", "${projectDir}/src/main/resources/openapi.yaml",
-        "-o", "${layout.buildDirectory.dir("generated").get().asFile.absolutePath}",
-        "--api-package", "com.example.todo_backend.presentation.api",
-        "--model-package", "com.example.todo_backend.presentation.dto",
-        "--additional-properties", "interfaceOnly=true,useJakartaValidation=true,useLombok=true,skipFormModel=true,dateTimeFormat=java.time.LocalDate"
-    )
-
-    sourceSets.main {
-        java {
-            srcDir(layout.buildDirectory.dir("generated/src/main/java").get().asFile)
+openApiGenerate {
+    generatorName.set("spring")
+    inputSpec.set("$rootDir/src/main/resources/openapi.yaml")
+    outputDir.set("$buildDir/generated")
+    apiPackage.set("com.example.todo.presentation.api")
+    modelPackage.set("com.example.todo.presentation.dto")
+    configOptions.set(mapOf(
+        "interfaceOnly" to "true",
+        "useJakartaValidation" to "true",
+        "useLombok" to "true",
+        "skipFormModel" to "true",
+        "dateTimeFormat" to "java.time.LocalDate"
+    ))
+    sourceSets {
+        main {
+            java {
+                srcDir("${buildDir}/generated/src/main/java")
+            }
         }
     }
 }
