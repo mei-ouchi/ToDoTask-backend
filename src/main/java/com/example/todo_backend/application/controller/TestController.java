@@ -1,8 +1,9 @@
-package com.example.todo_backend.presentation.controller;
+package com.example.todo_backend.application.controller;
 
-import com.example.todo_backend.application.service.TestService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.example.todo_backend.domain.service.TestService;
 
 @RestController
 public class TestController {

@@ -1,4 +1,4 @@
-package com.example.todo_backend.application.service;
+package com.example.todo_backend.domain.service;
 
 import com.example.todo_backend.infrastructure.mapper.TestMapper;
 import org.springframework.stereotype.Service;
