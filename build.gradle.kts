@@ -57,7 +57,7 @@ tasks.register<JavaExec>("mybatisGenerate") {
 
 openApiGenerate {
     generatorName.set("spring")
-    inputSpec.set("C:/openapi.yaml")
+    inputSpec.set("file://" + project.rootDir.resolve("src/main/resources/openapi.yaml").absolutePath.replace('\\', '/')) 
     outputDir.set("${buildDir}/generated")
     apiPackage.set("com.example.todo_backend.application.controller")
     modelPackage.set("com.example.todo_backend.application.dto")
@@ -68,11 +68,11 @@ openApiGenerate {
         "skipFormModel" to "true",
         "dateTimeFormat" to "java.time.LocalDate"
     ))
-    sourceSets {
-        main {
-            java {
-                srcDir("${buildDir}/generated/src/main/java")
-            }
+   sourceSets {
+    main {
+        java {
+            srcDir(layout.buildDirectory.dir("generated-openapi").get().asFile.resolve("src/main/java"))
         }
     }
+  }
 }
