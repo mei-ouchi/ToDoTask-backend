@@ -57,7 +57,7 @@ tasks.register<JavaExec>("mybatisGenerate") {
 
 openApiGenerate {
     generatorName.set("spring")
-    inputSpec.set("file://" + project.rootDir.resolve("src/main/resources/openapi.yaml").absolutePath.replace('\\', '/')) 
+    inputSpec.set("C:/openapi.yaml")
     outputDir.set("${buildDir}/generated")
     apiPackage.set("com.example.todo_backend.application.controller")
     modelPackage.set("com.example.todo_backend.application.dto")
