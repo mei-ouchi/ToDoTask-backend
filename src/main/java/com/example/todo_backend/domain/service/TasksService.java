@@ -4,9 +4,9 @@ import com.example.todo_backend.domain.model.Tasks;
 import com.example.todo_backend.domain.repository.TasksRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import com.example.todo_backend.domain.exception.TaskNotFoundException;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -19,43 +19,41 @@ public class TasksService {
     }
 
   //特定のタスク取得
-  public Optional<Tasks> findById(Integer id) {
-       return tasksRepository.findById(id);
-  }
+  public Tasks findById(Integer id) {
+        return tasksRepository.findById(id)
+                .orElseThrow(() -> new TaskNotFoundException("Task not found with ID: " + id));
+    }
 
   //タスクの作成
   public Tasks createTask(Tasks task) {
         int insertedRows = tasksRepository.insert(task);
         if (insertedRows == 0) {
-            throw new RuntimeException("Failed to create task.");
+            throw new RuntimeException("Failed to create task: No rows inserted.");
         }
         return task;
     }
 
   //タスクの更新
-  public Optional<Tasks> updateTask(Tasks task) {
-        Optional<Tasks> existingTask = tasksRepository.findById(task.getId());
-        if (existingTask.isEmpty()) {
-            return Optional.empty();
-        }
+  public Tasks updateTask(Tasks task) {
+        tasksRepository.findById(task.getId())
+                .orElseThrow(() -> new TaskNotFoundException("Task not found with ID: " + task.getId()));
 
         int updatedRows = tasksRepository.update(task);
-        
         if (updatedRows == 0) {
-            throw new RuntimeException("Failed to update task with ID: " + task.getId());
+            throw new RuntimeException("Failed to update task with ID: " + task.getId() + ". No rows affected.");
         }
-
-        return tasksRepository.findById(task.getId());
+        return tasksRepository.findById(task.getId())
+                    .orElseThrow(() -> new TaskNotFoundException("Updated task not found after update, ID: " + task.getId()));
     }
 
   //タスクの削除
-  public boolean deleteById(Integer id) {
-        Optional<Tasks> existingTask = tasksRepository.findById(id);
-        if (existingTask.isEmpty()) {
-            return false;
-        }
+  public void deleteById(Integer id) {
+        tasksRepository.findById(id)
+                .orElseThrow(() -> new TaskNotFoundException("Task not found with ID: " + id));
         
         int deletedRows = tasksRepository.deleteById(id);
-        return deletedRows > 0;
+        if (deletedRows == 0) {
+            throw new RuntimeException("Failed to delete task with ID: " + id + ". No rows affected.");
+        }
     }
 }

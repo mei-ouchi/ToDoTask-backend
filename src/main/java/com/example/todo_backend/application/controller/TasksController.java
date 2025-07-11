@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.time.ZoneId;
-import java.util.Optional;
 import java.util.Date;
 
 import org.springframework.web.bind.annotation.PathVariable;
@@ -40,13 +39,8 @@ public class TasksController implements TasksApi {
 
     //特定のタスク取得
     @Override
-    public ResponseEntity<TasksDto> getTaskById(Integer id) {
-        Optional<com.example.todo_backend.domain.model.Tasks> domainTaskOptional = tasksService.findById(id);
-
-        if (domainTaskOptional.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        com.example.todo_backend.domain.model.Tasks domainTask = domainTaskOptional.get();
+   public ResponseEntity<TasksDto> getTaskById(Integer id) {
+        com.example.todo_backend.domain.model.Tasks domainTask = tasksService.findById(id);
         TasksDto responseDto = convertToDto(domainTask);
         return ResponseEntity.ok(responseDto);
     }
@@ -68,13 +62,7 @@ public class TasksController implements TasksApi {
         com.example.todo_backend.domain.model.Tasks updatedTask = convertToDomain(taskRequest);
         updatedTask.setId(id);
 
-        Optional<com.example.todo_backend.domain.model.Tasks> resultTaskOptional = tasksService.updateTask(updatedTask);
-
-        if (resultTaskOptional.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
-        com.example.todo_backend.domain.model.Tasks resultTask = resultTaskOptional.get();
+        com.example.todo_backend.domain.model.Tasks resultTask = tasksService.updateTask(updatedTask);
         TasksDto responseDto = convertToDto(resultTask);
 
         return ResponseEntity.ok(responseDto);
@@ -82,13 +70,8 @@ public class TasksController implements TasksApi {
 
     //タスクの削除
     @Override
-    public ResponseEntity<Void> deleteTask(@PathVariable("id") Integer id) {
-        boolean deleted = tasksService.deleteById(id);
-
-        if (!deleted) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
+   public ResponseEntity<Void> deleteTask(@PathVariable("id") Integer id) {
+        tasksService.deleteById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
