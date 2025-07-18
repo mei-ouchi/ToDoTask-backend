@@ -1,4 +1,4 @@
-package com.example.todo_backend.application.controller;
+package com.example.todo_backend.application.controller.api;
 
 import org.springframework.web.context.request.NativeWebRequest;
 
@@ -9,7 +9,7 @@ public class ApiUtil {
     public static void setExampleResponse(NativeWebRequest req, String contentType, String example) {
         try {
             HttpServletResponse res = req.getNativeResponse(HttpServletResponse.class);
-            if (res != null) { 
+            if (res != null) {
                 res.setCharacterEncoding("UTF-8");
                 res.addHeader("Content-Type", contentType);
                 res.getWriter().print(example);

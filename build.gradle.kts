@@ -59,7 +59,7 @@ openApiGenerate {
     generatorName.set("spring")
     inputSpec.set("C:/openapi.yaml")
     outputDir.set("${buildDir}/generated")
-    apiPackage.set("com.example.todo_backend.application.controller")
+    apiPackage.set("com.example.todo_backend.application.controller.api")
     modelPackage.set("com.example.todo_backend.application.dto")
     configOptions.set(mapOf(
         "interfaceOnly" to "true",

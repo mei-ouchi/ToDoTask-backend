@@ -2,25 +2,24 @@ package com.example.todo_backend.infrastructure.repository.impl;
 
 import com.example.todo_backend.domain.model.Tasks;
 import com.example.todo_backend.domain.repository.TasksRepository;
-import com.example.todo_backend.infrastructure.mapper.TasksMapper; // TasksMapper をインポート
+import com.example.todo_backend.infrastructure.mapper.TasksMapper;
+
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
-
 
 import static org.mybatis.dynamic.sql.SqlBuilder.*;
 
 import static com.example.todo_backend.infrastructure.mapper.TasksDynamicSqlSupport.id;
 
 @Repository
+@RequiredArgsConstructor
 public class TasksRepositoryImpl implements TasksRepository {
 
     private final TasksMapper tasksMapper;
-
-    public TasksRepositoryImpl(TasksMapper tasksMapper) {
-        this.tasksMapper = tasksMapper;
-    }
 
     @Override
     public List<Tasks> findAll() {
