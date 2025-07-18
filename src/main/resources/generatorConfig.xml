@@ -13,25 +13,24 @@
         </commentGenerator>
 
         <jdbcConnection driverClass="org.h2.Driver"
-                        connectionURL="jdbc:h2:mem:todo_db;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;INIT=RUNSCRIPT FROM 'classpath:schema.sql'"
-                        userId="sa"
-                        password="">
+                connectionURL="jdbc:h2:mem:todo_db;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;INIT=RUNSCRIPT FROM 'classpath:schema.sql'"
+                userId="sa"
+                password="">
         </jdbcConnection>
 
         <javaModelGenerator targetPackage="com.example.todo_backend.domain.model"
                             targetProject="src/main/java">
             <property name="enableSubPackages" value="true"/>
             <property name="trimStrings" value="true"/>
-        </javaModelGenerator>
+            </javaModelGenerator>
 
         <javaClientGenerator type="MAPPER"
-                            targetPackage="com.example.todo_backend.infrastructure.mapper"
-                            targetProject="src/main/java">
+                             targetPackage="com.example.todo_backend.infrastructure.mapper"
+                             targetProject="src/main/java">
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
 
         <table tableName="tasks">
-            <generatedKey column="ID" sqlStatement="IDENTITY" identity="true"/>
-        </table>
+            </table>
     </context>
 </generatorConfiguration>
