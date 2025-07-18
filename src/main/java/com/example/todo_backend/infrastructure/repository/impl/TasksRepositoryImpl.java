@@ -9,11 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
-
-import static org.mybatis.dynamic.sql.SqlBuilder.*;
-
-import static com.example.todo_backend.infrastructure.mapper.TasksDynamicSqlSupport.id;
 
 @Repository
 @RequiredArgsConstructor
@@ -27,8 +22,8 @@ public class TasksRepositoryImpl implements TasksRepository {
     }
 
     @Override
-    public Optional<Tasks> findById(Integer taskId) {
-        return tasksMapper.selectByPrimaryKey(taskId);
+    public Tasks findById(Integer taskId) {
+        return tasksMapper.selectByPrimaryKey(taskId).orElse(null);
     }
 
     @Override
@@ -46,6 +41,6 @@ public class TasksRepositoryImpl implements TasksRepository {
 
     @Override
     public int deleteById(Integer taskId) {
-        return tasksMapper.delete(c -> c.where(id, isEqualTo(taskId)));
+        return tasksMapper.deleteByPrimaryKey(taskId);
     }
 }

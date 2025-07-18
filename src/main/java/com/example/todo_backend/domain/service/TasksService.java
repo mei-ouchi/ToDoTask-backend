@@ -20,8 +20,11 @@ public class TasksService {
 
   // 特定のタスク取得
   public Tasks findById(Integer id) {
-    return tasksRepository.findById(id)
-        .orElseThrow(() -> new TaskNotFoundException("Task not found with ID: " + id));
+    Tasks task = tasksRepository.findById(id);
+    if (task == null) {
+      throw new TaskNotFoundException("Task not found with ID: " + id);
+    }
+    return task;
   }
 
   // タスクの作成
