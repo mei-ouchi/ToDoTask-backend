@@ -21,7 +21,7 @@ import jakarta.annotation.Generated;
  * TasksDto
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-07-22T10:56:54.016434800+09:00[GMT+09:00]", comments = "Generator version: 7.5.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-07-22T11:15:09.961920300+09:00[GMT+09:00]", comments = "Generator version: 7.5.0")
 public class TasksDto {
 
   private Integer id;

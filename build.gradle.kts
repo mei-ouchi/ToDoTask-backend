@@ -69,7 +69,8 @@ openApiGenerate {
         "skipFormModel" to "true",
         "dateLibrary" to "java8",
         "useBeanValidation" to "true",
-        "useJakartaEe" to "true"
+        "useJakartaEe" to "true",
+        "useSpringBoot3" to "true"
     ))
 }
 
