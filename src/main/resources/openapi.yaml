@@ -20,7 +20,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Tasks'
+                  $ref: '#/components/schemas/TasksDto'
     post:
       summary: Create a new task
       operationId: createTask
@@ -36,7 +36,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Tasks'
+                $ref: '#/components/schemas/TasksDto'
   /tasks/{id}:
     get:
       summary: Get a task by ID
@@ -54,7 +54,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Tasks'
+                $ref: '#/components/schemas/TasksDto'
         '404':
           description: Task not found
     put:
@@ -79,7 +79,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Tasks'
+                $ref: '#/components/schemas/TasksDto'
         '404':
           description: Task not found
     delete:
@@ -100,7 +100,7 @@ paths:
 
 components:
   schemas:
-    Tasks:
+    TasksDto:
       type: object
       required:
         - id

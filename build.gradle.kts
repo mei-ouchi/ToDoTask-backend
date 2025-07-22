@@ -39,6 +39,7 @@ dependencies {
     implementation("org.mybatis.dynamic-sql:mybatis-dynamic-sql:1.5.0")
     implementation("org.mybatis.generator:mybatis-generator-core:1.4.2")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0")
+    implementation("org.openapitools:jackson-databind-nullable:0.2.3")
 }
 
 tasks.register<JavaExec>("mybatisGenerate") {
@@ -58,7 +59,7 @@ tasks.register<JavaExec>("mybatisGenerate") {
 openApiGenerate {
     generatorName.set("spring")
     inputSpec.set("C:/openapi.yaml")
-    outputDir.set("${buildDir}/generated")
+    outputDir.set("${buildDir}/generated/openapi")
     apiPackage.set("com.example.todo_backend.application.controller.api")
     modelPackage.set("com.example.todo_backend.application.dto")
     configOptions.set(mapOf(
@@ -66,13 +67,24 @@ openApiGenerate {
         "useJakartaValidation" to "true",
         "useLombok" to "true",
         "skipFormModel" to "true",
-        "dateTimeFormat" to "java.time.LocalDate"
+        "dateLibrary" to "java8",
+        "useBeanValidation" to "true",
+        "useJakartaEe" to "true"
     ))
-   sourceSets {
-    main {
-        java {
-            srcDir(layout.buildDirectory.dir("generated-openapi").get().asFile.resolve("src/main/java"))
-        }
-    }
-  }
+}
+
+tasks.register<Copy>("copyGeneratedOpenApiToSource") {
+    dependsOn(tasks.named("openApiGenerate"))
+
+    from("${buildDir}/generated/openapi/src/main/java") 
+    
+    into("src/main/java")
+}
+
+tasks.named("compileJava") {
+    dependsOn(tasks.named("copyGeneratedOpenApiToSource"))
+}
+
+tasks.named("bootJar") {
+    dependsOn(tasks.named("copyGeneratedOpenApiToSource"))
 }

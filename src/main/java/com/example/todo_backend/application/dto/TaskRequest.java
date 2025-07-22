@@ -1,31 +1,31 @@
 package com.example.todo_backend.application.dto;
 
+import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.time.LocalDate;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.openapitools.jackson.nullable.JsonNullable;
+import java.time.OffsetDateTime;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 
+import java.util.*;
 import jakarta.annotation.Generated;
 
 /**
  * TaskRequest
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-07-10T09:27:05.776178400+09:00[GMT+09:00]", comments = "Generator version: 7.5.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-07-22T10:56:54.016434800+09:00[GMT+09:00]", comments = "Generator version: 7.5.0")
 public class TaskRequest {
 
-  @NotNull
-  @Size(max = 20, message = "タイトルは20文字以内で入力してください。")
   private String title;
 
-  @Size(max = 50, message = "説明は50文字以内で入力してください。")
-  @Pattern(regexp = "^[^\\p{ASCII}]*$", message = "説明には半角英数字を含めることはできません。")
   private String description;
 
   /**
@@ -65,8 +65,6 @@ public class TaskRequest {
 
   private StatusEnum status;
 
-  @NotNull
-  @FutureOrPresent(message = "期限は本日以降の日付を設定してください。")
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
   private LocalDate dueDate;
 

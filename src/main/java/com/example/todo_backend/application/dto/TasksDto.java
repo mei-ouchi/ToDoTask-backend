@@ -1,19 +1,27 @@
 package com.example.todo_backend.application.dto;
 
+import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.time.LocalDate;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.openapitools.jackson.nullable.JsonNullable;
+import java.time.OffsetDateTime;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 
+import java.util.*;
 import jakarta.annotation.Generated;
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-07-10T09:27:05.776178400+09:00[GMT+09:00]", comments = "Generator version: 7.5.0")
+/**
+ * TasksDto
+ */
+
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-07-22T10:56:54.016434800+09:00[GMT+09:00]", comments = "Generator version: 7.5.0")
 public class TasksDto {
 
   private Integer id;
@@ -183,12 +191,12 @@ public class TasksDto {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    TasksDto tasks = (TasksDto) o;
-    return Objects.equals(this.id, tasks.id) &&
-        Objects.equals(this.title, tasks.title) &&
-        Objects.equals(this.description, tasks.description) &&
-        Objects.equals(this.status, tasks.status) &&
-        Objects.equals(this.dueDate, tasks.dueDate);
+    TasksDto tasksDto = (TasksDto) o;
+    return Objects.equals(this.id, tasksDto.id) &&
+        Objects.equals(this.title, tasksDto.title) &&
+        Objects.equals(this.description, tasksDto.description) &&
+        Objects.equals(this.status, tasksDto.status) &&
+        Objects.equals(this.dueDate, tasksDto.dueDate);
   }
 
   @Override
@@ -199,7 +207,7 @@ public class TasksDto {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Tasks {\n");
+    sb.append("class TasksDto {\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    title: ").append(toIndentedString(title)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
