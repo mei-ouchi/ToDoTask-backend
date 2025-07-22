@@ -6,7 +6,7 @@
 <generatorConfiguration>
     <classPathEntry location="C:/Users/mei ouchi/.gradle/caches/modules-2/files-2.1/com.h2database/h2/2.3.232/4fcc05d966ccdb2812ae8b9a718f69226c0cf4e2/h2-2.3.232.jar"/>
 
-    <context id="MyBatisDynamicSQL" targetRuntime="MyBatis3DynamicSql">
+    <context id="MyBatisGeneratorContext" targetRuntime="MyBatis3DynamicSql">
         <commentGenerator>
             <property name="suppressAllComments" value="true"/>
             <property name="suppressDate" value="true"/>
@@ -18,19 +18,26 @@
                 password="">
         </jdbcConnection>
 
-        <javaModelGenerator targetPackage="com.example.todo_backend.domain.model"
-                            targetProject="src/main/java">
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false"/>
+            <property name="overrideSqlTypes" value="VARCHAR=java.lang.String"/>
+            <property name="overrideSqlTypes" value="DATE=java.util.Date"/>
+            </javaTypeResolver>
+
+        <javaModelGenerator targetPackage="com.example.todo_backend.infrastructure.entity"
+                            targetProject="${outputDir}">
             <property name="enableSubPackages" value="true"/>
             <property name="trimStrings" value="true"/>
-            </javaModelGenerator>
+            <property name="modelNameSuffix" value="Entity"/> </javaModelGenerator>
 
         <javaClientGenerator type="MAPPER"
                              targetPackage="com.example.todo_backend.infrastructure.mapper"
-                             targetProject="src/main/java">
+                             targetProject="${outputDir}">
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
 
         <table tableName="tasks">
-            </table>
+            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
+        </table>
     </context>
 </generatorConfiguration>

@@ -11,11 +11,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
+import com.example.todo_backend.domain.model.TasksModel;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import java.time.ZoneId;
-import java.util.Date;
 
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,7 +28,7 @@ public class TasksController implements TasksApi {
     // タスク一覧取得
     @Override
     public ResponseEntity<List<TasksDto>> getAllTasks() {
-        List<com.example.todo_backend.domain.model.Tasks> domainTasks = tasksService.findAllTasks();
+        List<TasksModel> domainTasks = tasksService.findAllTasks();
 
         List<TasksDto> responseTasks = domainTasks.stream()
                 .map(this::convertToDto)
@@ -41,7 +40,7 @@ public class TasksController implements TasksApi {
     // 特定のタスク取得
     @Override
     public ResponseEntity<TasksDto> getTaskById(Integer id) {
-        com.example.todo_backend.domain.model.Tasks domainTask = tasksService.findById(id);
+        TasksModel domainTask = tasksService.findById(id);
         TasksDto responseDto = convertToDto(domainTask);
         return ResponseEntity.ok(responseDto);
     }
@@ -50,8 +49,8 @@ public class TasksController implements TasksApi {
     @Override
     public ResponseEntity<TasksDto> createTask(
             @Valid @org.springframework.web.bind.annotation.RequestBody TaskRequest taskRequest) {
-        com.example.todo_backend.domain.model.Tasks newTask = convertToDomain(taskRequest);
-        com.example.todo_backend.domain.model.Tasks createdTask = tasksService.createTask(newTask);
+        TasksModel newTask = convertToDomain(taskRequest);
+        TasksModel createdTask = tasksService.createTask(newTask);
 
         TasksDto responseDto = convertToDto(createdTask);
 
@@ -62,10 +61,10 @@ public class TasksController implements TasksApi {
     @Override
     public ResponseEntity<TasksDto> updateTask(@PathVariable("id") Integer id,
             @Valid @RequestBody TaskRequest taskRequest) {
-        com.example.todo_backend.domain.model.Tasks updatedTask = convertToDomain(taskRequest);
+        TasksModel updatedTask = convertToDomain(taskRequest);
         updatedTask.setId(id);
 
-        com.example.todo_backend.domain.model.Tasks resultTask = tasksService.updateTask(updatedTask);
+        TasksModel resultTask = tasksService.updateTask(updatedTask);
         TasksDto responseDto = convertToDto(resultTask);
 
         return ResponseEntity.ok(responseDto);
@@ -78,7 +77,7 @@ public class TasksController implements TasksApi {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    private TasksDto convertToDto(com.example.todo_backend.domain.model.Tasks domainTask) {
+    private TasksDto convertToDto(TasksModel domainTask) {
         TasksDto dto = new TasksDto();
         dto.setId(domainTask.getId());
         dto.setTitle(domainTask.getTitle());
@@ -86,9 +85,9 @@ public class TasksController implements TasksApi {
 
         if (domainTask.getStatus() != null) {
             try {
-                dto.setStatus(TasksDto.StatusEnum.fromValue(domainTask.getStatus()));
+                dto.setStatus(TasksDto.StatusEnum.fromValue(domainTask.getStatus().name()));
             } catch (IllegalArgumentException e) {
-                System.err.println("Unknown status value: " + domainTask.getStatus());
+                System.err.println("Unknown status value: " + domainTask.getStatus().name());
                 dto.setStatus(TasksDto.StatusEnum.PENDING);
             }
         } else {
@@ -96,24 +95,24 @@ public class TasksController implements TasksApi {
         }
 
         if (domainTask.getDueDate() != null) {
-            dto.setDueDate(domainTask.getDueDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+            dto.setDueDate(domainTask.getDueDate());
         }
         return dto;
     }
 
-    private com.example.todo_backend.domain.model.Tasks convertToDomain(TaskRequest taskRequest) {
-        com.example.todo_backend.domain.model.Tasks domainTask = new com.example.todo_backend.domain.model.Tasks();
+    private TasksModel convertToDomain(TaskRequest taskRequest) {
+        TasksModel domainTask = new TasksModel();
         domainTask.setTitle(taskRequest.getTitle());
         domainTask.setDescription(taskRequest.getDescription());
 
         if (taskRequest.getStatus() != null) {
-            domainTask.setStatus(taskRequest.getStatus().getValue());
+            domainTask.setStatus(TasksModel.TaskStatus.valueOf(taskRequest.getStatus().getValue()));
         } else {
-            domainTask.setStatus(TasksDto.StatusEnum.PENDING.getValue());
+            domainTask.setStatus(TasksModel.TaskStatus.PENDING);
         }
 
         if (taskRequest.getDueDate() != null) {
-            domainTask.setDueDate(Date.from(taskRequest.getDueDate().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+            domainTask.setDueDate(taskRequest.getDueDate());
         }
         return domainTask;
     }

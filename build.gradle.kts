@@ -42,20 +42,6 @@ dependencies {
     implementation("org.openapitools:jackson-databind-nullable:0.2.3")
 }
 
-tasks.register<JavaExec>("mybatisGenerate") {
-    group = "mybatis"
-    description = "Generate MyBatis files"
-
-    classpath = sourceSets["main"].runtimeClasspath
-    mainClass.set("org.mybatis.generator.api.ShellRunner")
-
-    args = listOf(
-        "-configfile", "${projectDir}/src/main/resources/generatorConfig.xml",
-        "-overwrite",
-        "-verbose"
-    )
-}
-
 openApiGenerate {
     generatorName.set("spring")
     inputSpec.set("C:/openapi.yaml")
@@ -74,11 +60,44 @@ openApiGenerate {
     ))
 }
 
+val mybatisOutputDir = layout.buildDirectory.dir("generated/mybatis")
+
+tasks.register<Sync>("createMybatisOutputDir") {
+    group = "build"
+    description = "Creates the output directory for MyBatis Generator."
+    into(mybatisOutputDir)
+}
+
+
+tasks.register<JavaExec>("mybatisGenerate") {
+    group = "mybatis"
+    description = "Generate MyBatis files"
+
+    dependsOn(tasks.named("createMybatisOutputDir"))
+
+    classpath = configurations.runtimeClasspath.get() + files(sourceSets.main.get().resources.sourceDirectories.files)
+    mainClass.set("org.mybatis.generator.api.ShellRunner")
+
+    systemProperty("outputDir", mybatisOutputDir.get().asFile.absolutePath)
+
+    args = listOf(
+        "-configfile", "${projectDir}/src/main/resources/generatorConfig.xml",
+        "-overwrite",
+        "-verbose"
+    )
+}
+
 tasks.register<Copy>("copyGeneratedOpenApiToSource") {
     dependsOn(tasks.named("openApiGenerate"))
 
     from("${buildDir}/generated/openapi/src/main/java") 
     
+    into("src/main/java")
+}
+
+tasks.register<Copy>("copyGeneratedMybatisToSource") {
+    dependsOn(tasks.named("mybatisGenerate"))
+    from(mybatisOutputDir.get().asFile.absolutePath)
     into("src/main/java")
 }
 

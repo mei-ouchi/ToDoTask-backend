@@ -1,4 +1,4 @@
-package com.example.todo_backend.domain.model;
+package com.example.todo_backend.infrastructure.entity;
 
 import jakarta.annotation.Generated;
 import java.util.Date;
