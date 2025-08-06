@@ -25,16 +25,11 @@
             </javaTypeResolver>
 
         <javaModelGenerator targetPackage="com.example.todo_backend.infrastructure.entity"
-                            targetProject="${outputDir}">
-            <property name="enableSubPackages" value="true"/>
-            <property name="trimStrings" value="true"/>
-            <property name="modelNameSuffix" value="Entity"/> </javaModelGenerator>
+                    targetProject="src/main/java"/>
 
         <javaClientGenerator type="MAPPER"
-                             targetPackage="com.example.todo_backend.infrastructure.mapper"
-                             targetProject="${outputDir}">
-            <property name="enableSubPackages" value="true"/>
-        </javaClientGenerator>
+                    targetPackage="com.example.todo_backend.infrastructure.mapper"
+                    targetProject="src/main/java"/>
 
         <table tableName="tasks">
             <generatedKey column="id" sqlStatement="JDBC" identity="true"/>

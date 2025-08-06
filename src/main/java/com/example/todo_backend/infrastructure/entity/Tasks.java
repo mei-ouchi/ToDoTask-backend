@@ -36,7 +36,7 @@ public class Tasks {
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     public void setTitle(String title) {
-        this.title = title == null ? null : title.trim();
+        this.title = title;
     }
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
@@ -46,7 +46,7 @@ public class Tasks {
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     public void setDescription(String description) {
-        this.description = description == null ? null : description.trim();
+        this.description = description;
     }
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
@@ -56,7 +56,7 @@ public class Tasks {
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     public void setStatus(String status) {
-        this.status = status == null ? null : status.trim();
+        this.status = status;
     }
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
