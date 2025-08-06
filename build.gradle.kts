@@ -45,7 +45,7 @@ dependencies {
 openApiGenerate {
     generatorName.set("spring")
     inputSpec.set("C:/openapi.yaml")
-    outputDir.set("${buildDir}/generated/openapi")
+    outputDir.set("src/main/java")
     apiPackage.set("com.example.todo_backend.application.controller.api")
     modelPackage.set("com.example.todo_backend.application.dto")
     configOptions.set(mapOf(
@@ -87,24 +87,8 @@ tasks.register<JavaExec>("mybatisGenerate") {
     )
 }
 
-tasks.register<Copy>("copyGeneratedOpenApiToSource") {
-    dependsOn(tasks.named("openApiGenerate"))
-
-    from("${buildDir}/generated/openapi/src/main/java") 
-    
-    into("src/main/java")
-}
-
 tasks.register<Copy>("copyGeneratedMybatisToSource") {
     dependsOn(tasks.named("mybatisGenerate"))
     from(mybatisOutputDir.get().asFile.absolutePath)
     into("src/main/java")
-}
-
-tasks.named("compileJava") {
-    dependsOn(tasks.named("copyGeneratedOpenApiToSource"))
-}
-
-tasks.named("bootJar") {
-    dependsOn(tasks.named("copyGeneratedOpenApiToSource"))
 }
