@@ -4,7 +4,7 @@ import com.example.todo_backend.domain.model.TasksModel;
 import com.example.todo_backend.domain.repository.TasksRepository;
 import com.example.todo_backend.infrastructure.mapper.TasksMapper;
 import com.example.todo_backend.infrastructure.entity.Tasks;
-import com.example.todo_backend.domain.model.TasksModel.TaskStatus;
+import com.example.todo_backend.domain.model.TaskStatus;
 import java.time.ZoneId;
 import java.util.Date;
 
@@ -41,9 +41,6 @@ public class TasksRepositoryImpl implements TasksRepository {
 
     @Override
     public int update(TasksModel domainTask) {
-        if (domainTask.getId() == null) {
-            throw new IllegalArgumentException("Task ID cannot be null for update operation.");
-        }
         Tasks entity = toEntity(domainTask);
         return tasksMapper.updateByPrimaryKeySelective(entity);
     }
@@ -59,11 +56,7 @@ public class TasksRepositoryImpl implements TasksRepository {
         domain.setTitle(entity.getTitle());
         domain.setDescription(entity.getDescription());
 
-        if (entity.getStatus() != null) {
-            domain.setStatus(TaskStatus.valueOf(entity.getStatus()));
-        } else {
-            domain.setStatus(TaskStatus.PENDING);
-        }
+        domain.setStatus(TaskStatus.valueOf(entity.getStatus()));
 
         if (entity.getDueDate() != null) {
             domain.setDueDate(entity.getDueDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
@@ -76,12 +69,7 @@ public class TasksRepositoryImpl implements TasksRepository {
         entity.setId(domain.getId());
         entity.setTitle(domain.getTitle());
         entity.setDescription(domain.getDescription());
-
-        if (domain.getStatus() != null) {
-            entity.setStatus(domain.getStatus().name());
-        } else {
-            entity.setStatus(TasksModel.TaskStatus.PENDING.name());
-        }
+        entity.setStatus(domain.getStatus().name());
 
         if (domain.getDueDate() != null) {
             entity.setDueDate(Date.from(domain.getDueDate().atStartOfDay(ZoneId.systemDefault()).toInstant()));

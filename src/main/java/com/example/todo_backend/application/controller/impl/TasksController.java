@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.todo_backend.domain.model.TasksModel;
+import com.example.todo_backend.domain.model.TaskStatus;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -106,9 +107,9 @@ public class TasksController implements TasksApi {
         domainTask.setDescription(taskRequest.getDescription());
 
         if (taskRequest.getStatus() != null) {
-            domainTask.setStatus(TasksModel.TaskStatus.valueOf(taskRequest.getStatus().getValue()));
+            domainTask.setStatus(TaskStatus.valueOf(taskRequest.getStatus().getValue()));
         } else {
-            domainTask.setStatus(TasksModel.TaskStatus.PENDING);
+            domainTask.setStatus(TaskStatus.PENDING);
         }
 
         if (taskRequest.getDueDate() != null) {
