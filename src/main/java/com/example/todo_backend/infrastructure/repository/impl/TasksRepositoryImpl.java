@@ -55,12 +55,8 @@ public class TasksRepositoryImpl implements TasksRepository {
         domain.setId(entity.getId());
         domain.setTitle(entity.getTitle());
         domain.setDescription(entity.getDescription());
-
         domain.setStatus(TaskStatus.valueOf(entity.getStatus()));
-
-        if (entity.getDueDate() != null) {
-            domain.setDueDate(entity.getDueDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
-        }
+        domain.setDueDate(entity.getDueDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
         return domain;
     }
 
@@ -70,10 +66,7 @@ public class TasksRepositoryImpl implements TasksRepository {
         entity.setTitle(domain.getTitle());
         entity.setDescription(domain.getDescription());
         entity.setStatus(domain.getStatus().name());
-
-        if (domain.getDueDate() != null) {
-            entity.setDueDate(Date.from(domain.getDueDate().atStartOfDay(ZoneId.systemDefault()).toInstant()));
-        }
+        entity.setDueDate(Date.from(domain.getDueDate().atStartOfDay(ZoneId.systemDefault()).toInstant()));
         return entity;
     }
 }
