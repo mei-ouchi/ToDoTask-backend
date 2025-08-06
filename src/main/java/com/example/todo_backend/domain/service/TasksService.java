@@ -1,11 +1,13 @@
 package com.example.todo_backend.domain.service;
 
+import com.example.todo_backend.domain.model.TaskStatus;
 import com.example.todo_backend.domain.model.TasksModel;
 import com.example.todo_backend.domain.repository.TasksRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import com.example.todo_backend.domain.exception.TaskNotFoundException;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -54,5 +56,19 @@ public class TasksService {
     if (deletedRows == 0) {
       throw new TaskNotFoundException("Task not found with ID: " + id);
     }
+  }
+
+  // タスクを完了状態にする
+  public TasksModel completeTask(TasksModel task) {
+    task.setStatus(TaskStatus.COMPLETED);
+    return task;
+  }
+
+  // タスクが期限切れかどうかのチェック
+  public boolean isOverdue(TasksModel task, LocalDate today) {
+    if (task.getDueDate() == null) {
+      return false;
+    }
+    return task.getDueDate().isBefore(today);
   }
 }
