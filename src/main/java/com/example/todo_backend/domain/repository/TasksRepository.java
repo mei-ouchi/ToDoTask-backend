@@ -1,16 +1,16 @@
 package com.example.todo_backend.domain.repository;
 
-import com.example.todo_backend.domain.model.Tasks;
+import com.example.todo_backend.domain.model.TasksModel;
 import java.util.List;
 
 public interface TasksRepository {
-    List<Tasks> findAll();
+    List<TasksModel> findAll();
 
-    Tasks findById(Integer id);
+    TasksModel findById(Integer id);
 
-    int insert(Tasks tasks);
+    int insert(TasksModel tasks);
 
-    int update(Tasks tasks);
+    int update(TasksModel tasks);
 
     int deleteById(Integer id);
 }

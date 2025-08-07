@@ -1,11 +1,13 @@
 package com.example.todo_backend.domain.service;
 
-import com.example.todo_backend.domain.model.Tasks;
+import com.example.todo_backend.domain.model.TaskStatus;
+import com.example.todo_backend.domain.model.TasksModel;
 import com.example.todo_backend.domain.repository.TasksRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import com.example.todo_backend.domain.exception.TaskNotFoundException;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -14,13 +16,13 @@ public class TasksService {
   private final TasksRepository tasksRepository;
 
   // タスク一覧の取得
-  public List<Tasks> findAllTasks() {
+  public List<TasksModel> findAllTasks() {
     return tasksRepository.findAll();
   }
 
   // 特定のタスク取得
-  public Tasks findById(Integer id) {
-    Tasks task = tasksRepository.findById(id);
+  public TasksModel findById(Integer id) {
+    TasksModel task = tasksRepository.findById(id);
     if (task == null) {
       throw new TaskNotFoundException("Task not found with ID: " + id);
     }
@@ -28,7 +30,7 @@ public class TasksService {
   }
 
   // タスクの作成
-  public Tasks createTask(Tasks task) {
+  public TasksModel createTask(TasksModel task) {
     int insertedRows = tasksRepository.insert(task);
     if (insertedRows == 0) {
       throw new RuntimeException("Failed to create task: No rows inserted.");
@@ -37,7 +39,7 @@ public class TasksService {
   }
 
   // タスクの更新
-  public Tasks updateTask(Tasks task) {
+  public TasksModel updateTask(TasksModel task) {
     if (task.getId() == null) {
       throw new IllegalArgumentException("Task ID cannot be null for update operation.");
     }
@@ -54,5 +56,19 @@ public class TasksService {
     if (deletedRows == 0) {
       throw new TaskNotFoundException("Task not found with ID: " + id);
     }
+  }
+
+  // タスクを完了状態にする
+  public TasksModel completeTask(TasksModel task) {
+    task.setStatus(TaskStatus.COMPLETED);
+    return task;
+  }
+
+  // タスクが期限切れかどうかのチェック
+  public boolean isOverdue(TasksModel task, LocalDate today) {
+    if (task.getDueDate() == null) {
+      return false;
+    }
+    return task.getDueDate().isBefore(today);
   }
 }
