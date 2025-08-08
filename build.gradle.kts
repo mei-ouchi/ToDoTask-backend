@@ -44,6 +44,10 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.11.0-M1")
     testImplementation("org.mockito:mockito-core:5.12.0")
     testImplementation("org.mockito:mockito-junit-jupiter:5.12.0")
+    testImplementation("org.dbunit:dbunit:2.7.3")
+    testImplementation("com.h2database:h2:2.3.232")
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("com.github.springtestdbunit:spring-test-dbunit:1.3.0")
 }
 
 openApiGenerate {

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <TASKS id="1" title="更新後のタイトル" description="更新後の説明" status="COMPLETED" due_date="2025-08-15"/>
+    <TASKS id="2" title="コードレビュー" description="バックエンドのコードをレビューする" status="COMPLETED" due_date="2025-08-05"/>
+    <TASKS id="3" title="課題" description="タスク管理アプリの開発" status="PENDING" due_date="2025-08-12"/>
+</dataset>

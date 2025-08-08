@@ -11,9 +11,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-
 import java.time.LocalDate;
-import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -164,7 +162,7 @@ class TasksServiceTest {
                 .id(1)
                 .dueDate(LocalDate.of(2024, 1, 1))
                 .build();
-        
+
         // Testing
         boolean isOverdue = tasksService.isOverdue(overdueTask, LocalDate.now());
 
@@ -179,7 +177,7 @@ class TasksServiceTest {
                 .id(1)
                 .dueDate(LocalDate.of(2026, 1, 1))
                 .build();
-        
+
         // Testing
         boolean isOverdue = tasksService.isOverdue(notOverdueTask, LocalDate.now());
 
