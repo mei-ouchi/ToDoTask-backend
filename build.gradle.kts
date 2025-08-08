@@ -40,6 +40,10 @@ dependencies {
     implementation("org.mybatis.generator:mybatis-generator-core:1.4.2")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0")
     implementation("org.openapitools:jackson-databind-nullable:0.2.3")
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.11.0-M1")
+    testImplementation("org.mockito:mockito-core:5.12.0")
+    testImplementation("org.mockito:mockito-junit-jupiter:5.12.0")
 }
 
 openApiGenerate {
