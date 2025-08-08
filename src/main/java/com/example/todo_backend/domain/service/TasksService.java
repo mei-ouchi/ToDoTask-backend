@@ -5,6 +5,7 @@ import com.example.todo_backend.domain.model.TasksModel;
 import com.example.todo_backend.domain.repository.TasksRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import com.example.todo_backend.domain.exception.TaskCreationException;
 import com.example.todo_backend.domain.exception.TaskNotFoundException;
 
 import java.time.LocalDate;
@@ -33,7 +34,7 @@ public class TasksService {
   public TasksModel createTask(TasksModel task) {
     int insertedRows = tasksRepository.insert(task);
     if (insertedRows == 0) {
-      throw new RuntimeException("Failed to create task: No rows inserted.");
+      throw new TaskCreationException("Failed to create task: No rows inserted.");
     }
     return task;
   }

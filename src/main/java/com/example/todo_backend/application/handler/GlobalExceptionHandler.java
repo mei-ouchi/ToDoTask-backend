@@ -1,6 +1,8 @@
 package com.example.todo_backend.application.handler;
 
-import com.example.todo_backend.domain.exception.TaskNotFoundException;
+import com.example.todo_backend.domain.exception.TaskCreationException;
+import com.example.todo_backend.domain.exception.TaskUpdateException;
+import com.example.todo_backend.domain.exception.TaskDeletionException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -16,8 +18,8 @@ import java.util.stream.Collectors;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(TaskNotFoundException.class)
-    public ResponseEntity<Object> handleTaskNotFoundException(TaskNotFoundException ex, WebRequest request) {
+    @ExceptionHandler({ TaskCreationException.class, TaskUpdateException.class, TaskDeletionException.class })
+    public ResponseEntity<Object> handleTaskNotFoundException(RuntimeException ex, WebRequest request) {
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("timestamp", LocalDateTime.now());
         body.put("status", HttpStatus.NOT_FOUND.value());
@@ -57,7 +59,7 @@ public class GlobalExceptionHandler {
         body.put("path", request.getDescription(false).replace("uri=", ""));
 
         System.err.println("Unexpected error: " + ex.getClass().getName() + " - " + ex.getMessage());
-        ex.printStackTrace(); 
+        ex.printStackTrace();
 
         return new ResponseEntity<>(body, HttpStatus.INTERNAL_SERVER_ERROR);
     }
