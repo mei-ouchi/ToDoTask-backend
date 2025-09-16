@@ -1,4 +1,4 @@
-package com.example.todo_backend.application.controller.impl;
+package com.example.todo_backend.it.application.controller.impl;
 
 import com.example.todo_backend.TodoBackendApplication;
 import com.example.todo_backend.application.dto.TaskRequest;
@@ -37,7 +37,7 @@ public class TasksControllerTest {
   @DatabaseSetup("/dataset/tasks.xml")
   @ExpectedDatabase(value = "/dataset/tasks.xml", assertionMode = DatabaseAssertionMode.NON_STRICT)
   void testGetAllTasks_returnsAllTasks() throws Exception {
-    mockMvc.perform(get("/tasks"))// タスクの取得
+    mockMvc.perform(get("/tasks"))
         .andExpect(status().isOk())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$").isArray())

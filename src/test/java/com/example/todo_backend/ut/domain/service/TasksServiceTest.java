@@ -1,9 +1,11 @@
-package com.example.todo_backend.domain.service;
+package com.example.todo_backend.ut.domain.service;
 
 import com.example.todo_backend.domain.exception.TaskNotFoundException;
 import com.example.todo_backend.domain.model.TaskStatus;
 import com.example.todo_backend.domain.model.TasksModel;
 import com.example.todo_backend.domain.repository.TasksRepository;
+import com.example.todo_backend.domain.service.TasksService;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
