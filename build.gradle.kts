@@ -33,13 +33,17 @@ dependencies {
     implementation("org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3")
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
     implementation("org.springframework.boot:spring-boot-devtools")
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.mybatis.dynamic-sql:mybatis-dynamic-sql:1.5.0")
     implementation("org.mybatis.generator:mybatis-generator-core:1.4.2")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0")
     implementation("org.openapitools:jackson-databind-nullable:0.2.3")
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.dbunit:dbunit:2.7.3")
+    testImplementation("com.h2database:h2:2.3.232")
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("com.github.springtestdbunit:spring-test-dbunit:1.3.0")
 }
 
 openApiGenerate {
